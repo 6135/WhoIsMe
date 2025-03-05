@@ -239,7 +239,7 @@ export const AnimatedBackground: React.FC = () => {
                 ctx.beginPath();
                 ctx.arc(0, 0, shape.size / 2, 0, Math.PI * 2);
                 ctx.strokeStyle = shape.color;
-                ctx.lineWidth = shape.lineWidth || 1;
+                ctx.lineWidth = shape.lineWidth ?? 1;
                 ctx.stroke();
                 break;
 
