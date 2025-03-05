@@ -1,20 +1,29 @@
-// components/Header.tsx
+// src/components/Header.tsx - Updated to allow background interaction
 import React from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { AnimatedBackground } from './AnimatedBackground';
 import '../assets/css/Header.css';
 
 export const Header: React.FC = () => {
+  const { t } = useLanguage();
+
+  // Function to handle scroll when user clicks on the header text area
+  const handleHeaderClick = () => {
+    // Find the card game section and scroll to it
+    const cardGameSection = document.querySelector('.card-game');
+    if (cardGameSection) {
+      cardGameSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="header">
-      <div className="header-content">
-        <h1>Memory Card Game</h1>
-        <p>
-          Welcome to the Memory Card Game! Scroll down to play. Click on a card to
-          reveal the image. Each card contains a unique picture with interesting
-          information. Explore all cards to discover their contents. The cards are
-          randomly arranged each time you refresh the page for a new experience.
-        </p>
+      <AnimatedBackground />
+      <div className="header-content" onClick={handleHeaderClick}>
+        <h1>{t('header.title')}</h1>
+        <p>{t('header.description')}</p>
         <div className="scroll-indicator">
-          <span>Scroll to Play</span>
+          <span>{t('header.scrollToPlay')}</span>
           <div className="arrow-down"></div>
         </div>
       </div>
