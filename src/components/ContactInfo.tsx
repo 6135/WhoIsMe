@@ -1,5 +1,5 @@
 // src/components/ContactInfo.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import '../assets/css/ContactInfo.css';
 
