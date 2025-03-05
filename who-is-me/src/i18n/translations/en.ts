@@ -3,7 +3,7 @@ export const en = {
     // Header Component
     header: {
       title: "Who Is Me",
-      description: "Click on a card to reveal the image. Each card contains a unique picture with interesting information. Explore all cards to discover their contents. The cards are randomly arranged each time you refresh.",
+      description: "Click on a card to reveal the image. Each card contains a unique picture with interesting information. Explore all cards to discover their contents. The cards are randomly arranged each time you refresh. Tip: Try to drag the shapes",
       scrollToPlay: "Scroll"
     },
     // Card Game Component

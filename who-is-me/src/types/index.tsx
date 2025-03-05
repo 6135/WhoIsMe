@@ -19,7 +19,7 @@ export interface CardData {
   }
   
   // Mock data that could be moved to a separate file
-  export  const cardDataset: CardData[] = [
+  export const cardDataset: CardData[] = [
         {
           id: 1,
           imageUrl: "/images/ninetails.jpg",
