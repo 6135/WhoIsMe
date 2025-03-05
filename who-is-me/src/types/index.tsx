@@ -7,10 +7,12 @@ export interface CardData {
     title: string;
     description: string;
   }
-export  interface CardProp {
+  
+  export interface CardProp {
     id: number;
     imageUrl: string;
     title: string;
+    description?: string; // Added description property
     isSelected: boolean;
     isZoomed: boolean;
     onClick: () => void;
@@ -22,7 +24,7 @@ export  interface CardProp {
       id: 1,
       imageUrl: "/images/ninetails.jpg",
       title: "Mountain Landscape",
-      description: "A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails."
+      description: "A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails.A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails."
     },
     {
       id: 2,

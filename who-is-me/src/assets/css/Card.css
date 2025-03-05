@@ -1,4 +1,141 @@
-/* src/assets/css/Card.css - Complete rewrite with fixed card zooming */
+/* src/assets/css/Card.css */
+
+/* Close button for zoomed card */
+.card-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  animation: fadeInButton 1.5s ease forwards;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.card-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+.card-close-button:active {
+  transform: scale(0.95);
+}
+
+.card-close-button svg {
+  color: white;
+  width: 16px;
+  height: 16px;
+}
+.card.zoomed {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px; /* Increased height to accommodate content */
+  margin: 0;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+/* Card faces */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Updated card-back styling for zoomed state */
+.card-back {
+  background-color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 15px;
+}
+
+/* Make zoomed card back scrollable */
+.card.zoomed .card-back {
+  overflow-y: auto;
+}
+
+.card-back img {
+  width: 100%;
+  height: 250px; /* Fixed height for image in zoomed state */
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.card.zoomed .card-back img {
+  height: 300px; /* Larger image in zoomed state */
+}
+
+.card-back h4 {
+  color: #2c3e50;
+  padding: 10px 15px;
+  margin: 0;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.card.zoomed .card-back h4 {
+  font-size: 1.8rem;
+  padding: 15px 20px;
+}
+
+/* New styles for card details content */
+.card-details-content {
+  padding: 0 20px 20px 20px;
+  overflow-y: auto;
+  color: #333;
+  line-height: 1.6;
+}
+
+.card-details-content p {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .card.zoomed {
+    width: 90%;
+    max-width: 480px;
+    height: 80vh; /* Use viewport height for better mobile experience */
+    max-height: 600px;
+  }
+  
+  .card.zoomed .card-back img {
+    height: 200px;
+  }
+  
+  .card.zoomed .card-back h4 {
+    font-size: 1.5rem;
+  }
+}
 /* Base card styling */
 .card {
   height: 250px;
@@ -42,42 +179,6 @@
 {
   visibility: visible;
 }
-/* Zoomed card styling - Position fixed to stay centered during scroll */
-.card.zoomed {
-  position: fixed !important; /* Use !important to override any other positioning */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 450px;
-  margin: 0;
-  z-index: 1000;
-  pointer-events: auto;
-}
-
-/* Placeholder space for the original card position when zoomed */
-.card-wrapper.has-zoomed-card {
-  height: 250px; /* Same as regular card height */
-  visibility: hidden;
-}
-
-/* Card faces */
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.card-front {
-  background-color: #3498db;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .card-front.hidden {
   display: none;
@@ -104,31 +205,6 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.card-back {
-  background-color: white;
-  transform: rotateY(180deg);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-bottom: 15px;
-}
-
-.card-back img {
-  width: 100%;
-  height: 75%;
-  object-fit: cover;
-}
-
-.card-back h4 {
-  color: #2c3e50;
-  padding: 10px;
-  margin: 0;
-  font-size: 1rem;
-}
-
-.card.zoomed .card-back h4 {
-  font-size: 1.8rem;
-}
 
 /* Card Game Container */
 .card-game {

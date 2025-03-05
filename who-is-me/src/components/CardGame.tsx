@@ -1,5 +1,5 @@
 // src/components/CardGame.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
 import { CardData, cardDataset, shuffleArray } from '../types';
 import '../assets/css/Card.css';
@@ -9,7 +9,6 @@ export const CardGame: React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
-  const detailsRef = useRef<HTMLDivElement>(null);
 
   // Shuffle cards on component mount
   useEffect(() => {
@@ -18,53 +17,35 @@ export const CardGame: React.FC = () => {
 
   // Handle body scroll locking when zoomed
   useEffect(() => {
-    // We don't lock scrolling anymore, as we want the page to scroll
-    // Just cleanup on unmount
+    if (isZoomed) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, []);
-
-  // Handle scrolling to details when a card is zoomed
-  useEffect(() => {
-    if (isZoomed && detailsRef.current) {
-      // Wait for the card zoom animation to complete
-      setTimeout(() => {
-        // Calculate scroll position to show card details
-        const cardHeight = 450; // Height of zoomed card
-        const windowHeight = window.innerHeight;
-        const detailsTop = detailsRef.current?.getBoundingClientRect().top || 0;
-        const detailsHeight = detailsRef.current?.offsetHeight || 0;
-        
-        // Calculate ideal scroll position to center the card + details in view
-        const idealScrollTop = 
-          window.scrollY + 
-          detailsTop - 
-          (windowHeight - (cardHeight + detailsHeight)) / 2;
-        
-        window.scrollTo({
-          top: idealScrollTop,
-          behavior: 'smooth'
-        });
-      }, 300);
-    }
-  }, [isZoomed, selectedCard]);
+  }, [isZoomed]);
 
   const handleCardClick = (id: number) => {
     // Add card to flipped cards set
     setFlippedCards(prev => new Set(prev).add(id));
 
-    // Toggle zoom state if clicking the same card
-    if (selectedCard === id && isZoomed) {
+    // If the card is not zoomed, zoom it
+    if (!isZoomed || selectedCard !== id) {
+      setSelectedCard(id);
+      setIsZoomed(true);
+    }
+    // If the card is already zoomed, the close button will handle unzooming
+    else {
       setIsZoomed(false);
       // Scroll back to the card's original position if unzooming
       const cardWrapper = document.querySelector(`.card-wrapper[data-card-id="${id}"]`);
       if (cardWrapper) {
         cardWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-    } else {
-      setSelectedCard(id);
-      setIsZoomed(true);
     }
   };
 
@@ -79,9 +60,6 @@ export const CardGame: React.FC = () => {
       setIsZoomed(false);
     }
   };
-
-  // Find the currently selected card data
-  const selectedCardData = cards.find(card => card.id === selectedCard);
 
   return (
     <div className="card-game" onClick={handleBackgroundClick}>
@@ -101,6 +79,7 @@ export const CardGame: React.FC = () => {
               id={card.id}
               imageUrl={card.imageUrl}
               title={card.title}
+              description={card.description}
               isSelected={flippedCards.has(card.id)}
               isZoomed={isZoomed && card.id === selectedCard}
               onClick={() => handleCardClick(card.id)}
@@ -108,16 +87,6 @@ export const CardGame: React.FC = () => {
           </div>
         ))}
       </div>
-
-      {/* Card details panel that appears when a card is zoomed */}
-      {selectedCardData && isZoomed && (
-        <div id="card-details-container" ref={detailsRef}>
-          <div className="card-details">
-            <h3>{selectedCardData.title}</h3>
-            <p>{selectedCardData.description}</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

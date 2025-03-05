@@ -8,7 +8,7 @@ import './App.css';
 const App: React.FC = () => {
   return (
     <div className="app">
-      {/* <Header /> */}
+      <Header />
       <CardGame />
       <ContactInfo />
     </div>
