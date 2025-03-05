@@ -35,6 +35,19 @@ jobs:
         working-directory: ./who-is-me
         run: npm run build
         
+      - name: Add homepage to package.json
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        working-directory: ./who-is-me
+        run: |
+          # Add homepage to package.json
+          sed -i 's/"private": true,/"private": true,"homepage": "https:\/\/6135.github.io\/WhoIsMe\/",/g' package.json
+          cat package.json
+      
+      - name: Rebuild with correct homepage
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        working-directory: ./who-is-me
+        run: npm run build
+          
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4
