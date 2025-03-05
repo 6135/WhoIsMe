@@ -1,86 +1,58 @@
-/* Card.css */
+/* src/assets/css/Card.css - Cleaned up and removed unused rules */
 .card {
   height: 250px;
-  perspective: 1000px;
+  perspective: 1500px;
   cursor: pointer;
   position: relative;
   border-radius: 10px;
-  will-change: transform;
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   transform-style: preserve-3d;
-  -webkit-font-smoothing: subpixel-antialiased;
   backface-visibility: hidden;
+  will-change: transform;
 }
-
-.card.zoomed {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Add rotateY to keep it flipped */
-  z-index: 1000;
-  margin: 0;
-  width: 600px;
-  height: 450px;
-  transform-origin: center center;
-  image-rendering: -webkit-optimize-contrast;
-  pointer-events: auto;
-}
-
-/* Remove this rule since we're handling the flip in the .card.zoomed */
-.card.flipped.zoomed .card-inner {
-  transform: rotateY(180deg);
-}
-
-
-.card-back img {
-  width: 100%;
-  height: 75%;
-  object-fit: cover;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-.card-front.hidden {
-  display: none;
-}
-
-/* Make sure the zoomed card is above everything else */
-.card.zoomed .card-inner {
-  z-index: 1001;
-  position: relative;
-}
-
-/* Remove the card-placeholder class if you're not using it */
-.card-placeholder {
-  display: none;
-}
-
-/* Make sure the card-wrapper doesn't affect the zoomed card */
-.card-wrapper {
-  position: relative;
-}
-
-
 
 .card-inner {
   position: relative;
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  will-change: transform;
   backface-visibility: hidden;
-    pointer-events: auto;
-
+  pointer-events: auto;
 }
 
+/* Card states */
 .card.flipped .card-inner {
   transform: rotateY(180deg);
 }
 
+.card.revealed:not(.zoomed) .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card:not(.flipped):not(.revealed):hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Zoomed card styling */
+.card.zoomed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  margin: 0;
+  width: 600px;
+  height: 450px;
+  transform-origin: center center;
+  pointer-events: auto;
+}
+
+/* Card faces */
 .card-front,
 .card-back {
   position: absolute;
@@ -96,6 +68,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card-front.hidden {
+  display: none;
 }
 
 .card-back-design {
@@ -128,6 +104,12 @@
   padding-bottom: 15px;
 }
 
+.card-back img {
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+}
+
 .card-back h4 {
   color: #2c3e50;
   padding: 10px;
@@ -136,35 +118,128 @@
 }
 
 .card.zoomed .card-back h4 {
-  padding: 10px;
-  font-size: 1.8rem; /* Size up when zoomed */
+  font-size: 1.8rem;
 }
 
-/* Keep cards revealed after first flip */
-.card.revealed:not(.zoomed) .card-inner {
-  transform: rotateY(180deg);
-}
-
-/* Hover effect for cards that haven't been flipped yet */
-.card:not(.flipped):not(.revealed):hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-@media (max-width: 900px) {
+/* Responsive adjustments */
+@media (max-width: 600px) {
   .card.zoomed {
-    transform: translate(-50%, -50%);
-    width: 600px;
-    height: 450px;
+    width: 480px;
+    height: 360px;
+  }
+}
+
+/* src/assets/css/CardGame.css - Cleaned up */
+.card-game {
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f4f8;
+  position: relative;
+  z-index: 1;
+}
+
+.card-game h2 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Overlay for zoomed cards */
+.card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.overlay-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Card details panel */
+.card-details {
+  max-width: 600px;
+  max-height: 300px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow-y: auto;
+  position: fixed;
+  top: calc(50% + 225px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1002;
+  margin: 20px 0 0 0;
+  width: 600px;
+  animation: fadeInDetails 0.5s ease-in-out;
+}
+
+.card-details h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.card-details p {
+  color: #555;
+  line-height: 1.7;
+}
+
+@keyframes fadeInDetails {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Responsive grid layout */
+@media (max-width: 900px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  .card.zoomed {
-    transform: translate(-50%, -50%);
-    width: 480px;
-    height: 360px;
+  .cards-container {
+    grid-template-columns: 1fr;
   }
 
+  .card-game h2 {
+    font-size: 1.8rem;
+  }
   
+  .card-details {
+    max-height: 250px;
+    width: 480px;
+    top: calc(50% + 180px);
+  }
 }

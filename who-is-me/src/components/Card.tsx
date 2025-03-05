@@ -1,6 +1,5 @@
-// components/Card.tsx
+// src/components/Card.tsx
 import React, { useState, useEffect } from 'react';
-import '../assets/css/Card.css';
 
 interface CardProps {
   id: number;
@@ -12,38 +11,41 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({
-  id,
   imageUrl,
   title,
   isSelected,
   isZoomed,
   onClick
 }) => {
-  // Track if the card has been flipped at least once
-  const [hasBeenFlipped, setHasBeenFlipped] = useState<boolean>(false);
+  // Only track if card has been revealed at least once
+  const [hasBeenRevealed, setHasBeenRevealed] = useState(false);
 
-  // Always flip the card when zoomed
+  // Ensure zoomed cards are always flipped
   useEffect(() => {
-    if (isZoomed && !isSelected) {
-      // Force the card to be flipped when zoomed
-      setHasBeenFlipped(true);
+    if (isZoomed) {
+      setHasBeenRevealed(true);
     }
-  }, [isZoomed, isSelected]);
+  }, [isZoomed]);
 
   const handleClick = () => {
-    if (!hasBeenFlipped) {
-      setHasBeenFlipped(true);
+    if (!hasBeenRevealed) {
+      setHasBeenRevealed(true);
     }
     onClick();
   };
 
+  // Combine class names conditionally
+  const cardClasses = [
+    'card',
+    isSelected || isZoomed ? 'flipped' : '',
+    isZoomed ? 'zoomed' : '',
+    hasBeenRevealed ? 'revealed' : ''
+  ].filter(Boolean).join(' ');
+
   return (
-    <div
-      className={`card ${isSelected || isZoomed ? 'flipped' : ''} ${isZoomed ? 'zoomed' : ''} ${hasBeenFlipped ? 'revealed' : ''}`}
-      onClick={handleClick}
-    >
+    <div className={cardClasses} onClick={handleClick}>
       <div className="card-inner">
-        <div className={`card-front ${hasBeenFlipped ? 'hidden' : ''}`}>
+        <div className={`card-front ${hasBeenRevealed ? 'hidden' : ''}`}>
           <div className="card-back-design">
             <span>?</span>
           </div>
