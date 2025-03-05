@@ -1,5 +1,5 @@
 // src/components/CardGame.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card } from './Card';
 import { CardData, cardDataset, shuffleArray } from '../types';
 import '../assets/css/Card.css';
@@ -9,6 +9,7 @@ export const CardGame: React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
+  const detailsRef = useRef<HTMLDivElement>(null);
 
   // Shuffle cards on component mount
   useEffect(() => {
@@ -17,13 +18,37 @@ export const CardGame: React.FC = () => {
 
   // Handle body scroll locking when zoomed
   useEffect(() => {
-    document.body.style.overflow = isZoomed ? 'hidden' : 'auto';
-    
-    // Cleanup function to restore scrolling when component unmounts
+    // We don't lock scrolling anymore, as we want the page to scroll
+    // Just cleanup on unmount
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [isZoomed]);
+  }, []);
+
+  // Handle scrolling to details when a card is zoomed
+  useEffect(() => {
+    if (isZoomed && detailsRef.current) {
+      // Wait for the card zoom animation to complete
+      setTimeout(() => {
+        // Calculate scroll position to show card details
+        const cardHeight = 450; // Height of zoomed card
+        const windowHeight = window.innerHeight;
+        const detailsTop = detailsRef.current?.getBoundingClientRect().top || 0;
+        const detailsHeight = detailsRef.current?.offsetHeight || 0;
+        
+        // Calculate ideal scroll position to center the card + details in view
+        const idealScrollTop = 
+          window.scrollY + 
+          detailsTop - 
+          (windowHeight - (cardHeight + detailsHeight)) / 2;
+        
+        window.scrollTo({
+          top: idealScrollTop,
+          behavior: 'smooth'
+        });
+      }, 300);
+    }
+  }, [isZoomed, selectedCard]);
 
   const handleCardClick = (id: number) => {
     // Add card to flipped cards set
@@ -32,6 +57,11 @@ export const CardGame: React.FC = () => {
     // Toggle zoom state if clicking the same card
     if (selectedCard === id && isZoomed) {
       setIsZoomed(false);
+      // Scroll back to the card's original position if unzooming
+      const cardWrapper = document.querySelector(`.card-wrapper[data-card-id="${id}"]`);
+      if (cardWrapper) {
+        cardWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     } else {
       setSelectedCard(id);
       setIsZoomed(true);
@@ -62,7 +92,11 @@ export const CardGame: React.FC = () => {
       
       <div className="cards-container">
         {cards.map((card) => (
-          <div key={card.id} className="card-wrapper">
+          <div 
+            key={card.id} 
+            className={`card-wrapper ${isZoomed && card.id === selectedCard ? 'has-zoomed-card' : ''}`}
+            data-card-id={card.id}
+          >
             <Card
               id={card.id}
               imageUrl={card.imageUrl}
@@ -77,9 +111,11 @@ export const CardGame: React.FC = () => {
 
       {/* Card details panel that appears when a card is zoomed */}
       {selectedCardData && isZoomed && (
-        <div className="card-details">
-          <h3>{selectedCardData.title}</h3>
-          <p>{selectedCardData.description}</p>
+        <div id="card-details-container" ref={detailsRef}>
+          <div className="card-details">
+            <h3>{selectedCardData.title}</h3>
+            <p>{selectedCardData.description}</p>
+          </div>
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
-/* src/assets/css/Card.css - Cleaned up and removed unused rules */
+/* src/assets/css/Card.css - Complete rewrite with fixed card zooming */
+/* Base card styling */
 .card {
   height: 250px;
   perspective: 1500px;
@@ -37,19 +38,27 @@
   transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
-
-/* Zoomed card styling */
+.revealed 
+{
+  visibility: visible;
+}
+/* Zoomed card styling - Position fixed to stay centered during scroll */
 .card.zoomed {
-  position: fixed;
+  position: fixed !important; /* Use !important to override any other positioning */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
-  margin: 0;
   width: 600px;
   height: 450px;
-  transform-origin: center center;
+  margin: 0;
+  z-index: 1000;
   pointer-events: auto;
+}
+
+/* Placeholder space for the original card position when zoomed */
+.card-wrapper.has-zoomed-card {
+  height: 250px; /* Same as regular card height */
+  visibility: hidden;
 }
 
 /* Card faces */
@@ -121,22 +130,14 @@
   font-size: 1.8rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .card.zoomed {
-    width: 480px;
-    height: 360px;
-  }
-}
-
-/* src/assets/css/CardGame.css - Cleaned up */
+/* Card Game Container */
 .card-game {
   min-height: 100vh;
   padding: 60px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: #f0f4f8;
   position: relative;
   z-index: 1;
@@ -179,23 +180,24 @@
   pointer-events: auto;
 }
 
-/* Card details panel */
+/* Card details container and panel */
+#card-details-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
 .card-details {
   max-width: 600px;
-  max-height: 300px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
-  overflow-y: auto;
-  position: fixed;
-  top: calc(50% + 225px);
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   z-index: 1002;
-  margin: 20px 0 0 0;
-  width: 600px;
   animation: fadeInDetails 0.5s ease-in-out;
 }
 
@@ -213,11 +215,11 @@
 @keyframes fadeInDetails {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(20px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 }
 
@@ -237,9 +239,13 @@
     font-size: 1.8rem;
   }
   
+  .card.zoomed {
+    width: 90%;
+    max-width: 480px;
+    height: 360px;
+  }
+  
   .card-details {
-    max-height: 250px;
-    width: 480px;
-    top: calc(50% + 180px);
+    max-width: 90%;
   }
 }
