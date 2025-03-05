@@ -1,5 +1,5 @@
 // src/components/AnimatedBackground.tsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../assets/css/AnimatedBackground.css';
 
 interface Shape {
@@ -161,7 +161,6 @@ export const AnimatedBackground: React.FC = () => {
     const generateShapes = (count: number): Shape[] => {
         const solidShapeTypes = ['circle', 'triangle', 'hexagon', 'star'];
         const wireShapeTypes = ['wireCircle', 'wireTriangle', 'wireHexagon', 'wireSquare', 'wireStar'];
-        const allShapeTypes = [...solidShapeTypes, ...wireShapeTypes];
         const colors = ['#3498db', '#2c3e50', '#2980b9', '#34495e', '#1abc9c', '#3498db', '#16a085']; // Blues and complementary colors
 
         const newShapes: Shape[] = [];

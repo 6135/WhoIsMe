@@ -1,7 +1,6 @@
 // src/components/Card.tsx
 import React, { useState, useEffect } from 'react';
 import { CardProp } from '../types';
-import logoSvg from '../assets/images/logo-design.svg';
 
 export const Card: React.FC<CardProp> = ({
   imageUrl,
