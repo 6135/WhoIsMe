@@ -6,17 +6,19 @@
     width: 100%;
     height: 100%;
     z-index: -1; /* Place behind other content */
-    pointer-events: none; /* Allow clicks to pass through to elements below */
-  }
+    pointer-events: auto; /* Allow interaction with the canvas */
+    touch-action: none; /* Prevents browser's default touch actions */
+    cursor: default;
+}
   
-  /* Ensure the header has a relative position for proper z-indexing */
-  .header {
+/* Ensure the header has a relative position for proper z-indexing */
+.header {
     position: relative;
     z-index: 1;
-  }
+}
   
-  /* Add a subtle gradient overlay for better text readability */
-  .header::before {
+/* Add a subtle gradient overlay for better text readability */
+.header::before {
     content: '';
     position: absolute;
     top: 0;
@@ -29,4 +31,10 @@
       rgba(44, 62, 80, 0.8)
     );
     z-index: -1;
-  }
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+/* Add visual feedback when shapes are being dragged */
+.animated-background.dragging {
+    cursor: grabbing;
+}

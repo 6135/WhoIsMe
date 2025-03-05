@@ -1,5 +1,5 @@
 // src/components/AnimatedBackground.tsx
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../assets/css/AnimatedBackground.css';
 
 interface Shape {
@@ -7,7 +7,7 @@ interface Shape {
     y: number;
     size: number;
     sides?: number;
-    type: 'circle' | 'triangle' | 'hexagon' | 'wireCircle' | 'wireTriangle' | 'wireHexagon' | 'wireSquare' | 'star' | 'polygon' | 'diamond' | 'wireStar';
+    type: 'circle' | 'triangle' | 'hexagon' | 'wireCircle' | 'wireTriangle' | 'wireHexagon' | 'wireSquare' | 'wireStar' | 'star' | 'polygon' | 'diamond';
     color: string;
     opacity: number;
     speed: number;
@@ -19,13 +19,15 @@ interface Shape {
 
 export const AnimatedBackground: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const shapes = useRef<Shape[]>([]);
+    const shapesRef = useRef<Shape[]>([]);
     const animationFrameId = useRef<number>(0);
+    const draggedShapeIndexRef = useRef<number | null>(null);
+    const mousePosRef = useRef<{ x: number, y: number } | null>(null);
+    const isInitializedRef = useRef<boolean>(false);
 
     // Initialize shapes on component mount
     useEffect(() => {
         if (!canvasRef.current) return;
-
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -40,8 +42,11 @@ export const AnimatedBackground: React.FC = () => {
         window.addEventListener('resize', handleResize);
         handleResize();
 
-        // Generate shapes - increased to 35 shapes for more density
-        shapes.current = generateShapes(35);
+        // Only generate shapes once when the component first mounts
+        if (!isInitializedRef.current) {
+            shapesRef.current = generateShapes(35);
+            isInitializedRef.current = true;
+        }
 
         // Animation function
         const animate = () => {
@@ -51,17 +56,26 @@ export const AnimatedBackground: React.FC = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Update and draw shapes
-            shapes.current.forEach(shape => {
-                // Update position
-                shape.x += shape.speed * Math.cos(shape.direction);
-                shape.y += shape.speed * Math.sin(shape.direction);
-                shape.rotation += shape.rotationSpeed;
+            shapesRef.current.forEach((shape, index) => {
+                // Only update position if not being dragged
+                if (index !== draggedShapeIndexRef.current) {
+                    // Update position
+                    shape.x += shape.speed * Math.cos(shape.direction);
+                    shape.y += shape.speed * Math.sin(shape.direction);
+                    
+                    // Wrap around edges
+                    if (shape.x < -shape.size) shape.x = canvas.width + shape.size;
+                    if (shape.x > canvas.width + shape.size) shape.x = -shape.size;
+                    if (shape.y < -shape.size) shape.y = canvas.height + shape.size;
+                    if (shape.y > canvas.height + shape.size) shape.y = -shape.size;
+                } else if (mousePosRef.current) {
+                    // If this shape is being dragged, update its position to follow the mouse
+                    shape.x = mousePosRef.current.x;
+                    shape.y = mousePosRef.current.y;
+                }
 
-                // Wrap around edges
-                if (shape.x < -shape.size) shape.x = canvas.width + shape.size;
-                if (shape.x > canvas.width + shape.size) shape.x = -shape.size;
-                if (shape.y < -shape.size) shape.y = canvas.height + shape.size;
-                if (shape.y > canvas.height + shape.size) shape.y = -shape.size;
+                // Always update rotation
+                shape.rotation += shape.rotationSpeed;
 
                 // Draw shape
                 drawShape(ctx, shape);
@@ -79,7 +93,7 @@ export const AnimatedBackground: React.FC = () => {
             window.removeEventListener('resize', handleResize);
             cancelAnimationFrame(animationFrameId.current);
         };
-    }, []);
+    }, []); // Empty dependency array means this runs once on mount
 
     // Generate array of random shapes
     const generateShapes = (count: number): Shape[] => {
@@ -100,7 +114,7 @@ export const AnimatedBackground: React.FC = () => {
             newShapes.push({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight,
-                size: 10 + Math.random() * 140, // Size between 30 and 200 - much larger range
+                size: 10 + Math.random() * 140, // Size between 10 and 150
                 sides: Math.floor(Math.random() * 11) + 5, // Random number of sides for polygons
                 type: shapeType as any,
                 color: colors[Math.floor(Math.random() * colors.length)],
@@ -108,8 +122,7 @@ export const AnimatedBackground: React.FC = () => {
                 speed: 0.1 + Math.random() * 0.4, // Slow speed for gentle movement
                 direction: Math.random() * Math.PI * 2, // Random direction
                 rotation: Math.random() * Math.PI * 2,
-                rotationSpeed: (Math.random() - 0.5) * 0.01, // Slow rotation
-                lineWidth: isWireframe ? 1 + Math.random() * 2 : undefined // Line width for wireframe shapes
+                rotationSpeed: (Math.random() - 0.5) * 0.01 // Slow rotation
             });
         }
 
@@ -257,11 +270,134 @@ export const AnimatedBackground: React.FC = () => {
         ctx.restore();
     };
 
+    // Find if a point is inside a shape
+    const isPointInShape = (shape: Shape, point: { x: number, y: number }): boolean => {
+        // Calculate distance between point and shape center
+        const dx = point.x - shape.x;
+        const dy = point.y - shape.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Simple circular hit detection for all shapes
+        return distance <= shape.size / 2;
+    };
+
+    // Handle mouse events
+    const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // Get mouse coordinates relative to canvas
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Check if the mouse is on any shape (check in reverse to prioritize shapes drawn on top)
+        for (let i = shapesRef.current.length - 1; i >= 0; i--) {
+            if (isPointInShape(shapesRef.current[i], { x: mouseX, y: mouseY })) {
+                // Make this shape dragged
+                draggedShapeIndexRef.current = i;
+                mousePosRef.current = { x: mouseX, y: mouseY };
+                
+                // Set cursor to indicate dragging
+                canvas.style.cursor = 'grabbing';
+                break;
+            }
+        }
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+        if (draggedShapeIndexRef.current === null) return;
+
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // Update mouse position for the dragged shape
+        const rect = canvas.getBoundingClientRect();
+        mousePosRef.current = { 
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+    };
+
+    const handleMouseUp = () => {
+        // Stop dragging
+        if (draggedShapeIndexRef.current !== null) {
+            // Reset drag state
+            draggedShapeIndexRef.current = null;
+            
+            // Reset cursor
+            if (canvasRef.current) {
+                canvasRef.current.style.cursor = 'default';
+            }
+        }
+    };
+
+    // Handle touch events for mobile
+    const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+        const canvas = canvasRef.current;
+        if (!canvas || e.touches.length === 0) return;
+
+        // Prevent scrolling while dragging
+        e.preventDefault();
+
+        // Get touch coordinates relative to canvas
+        const rect = canvas.getBoundingClientRect();
+        const touchX = e.touches[0].clientX - rect.left;
+        const touchY = e.touches[0].clientY - rect.top;
+
+        // Check if the touch is on any shape (check in reverse to prioritize shapes drawn on top)
+        for (let i = shapesRef.current.length - 1; i >= 0; i--) {
+            if (isPointInShape(shapesRef.current[i], { x: touchX, y: touchY })) {
+                // Make this shape dragged
+                draggedShapeIndexRef.current = i;
+                mousePosRef.current = { x: touchX, y: touchY };
+                break;
+            }
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+        if (draggedShapeIndexRef.current === null || e.touches.length === 0) return;
+
+        // Prevent scrolling while dragging
+        e.preventDefault();
+
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // Update touch position for the dragged shape
+        const rect = canvas.getBoundingClientRect();
+        mousePosRef.current = { 
+            x: e.touches[0].clientX - rect.left,
+            y: e.touches[0].clientY - rect.top
+        };
+    };
+
+    const handleTouchEnd = () => {
+        // Stop dragging
+        draggedShapeIndexRef.current = null;
+    };
+
+    // Cursor changes based on dragging state
+    const getCursorStyle = () => {
+        return draggedShapeIndexRef.current !== null ? 'grabbing' : 'default';
+    };
+
     return (
         <canvas
             ref={canvasRef}
             className="animated-background"
-            aria-hidden="true"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ 
+                cursor: getCursorStyle(),
+                zIndex: draggedShapeIndexRef.current !== null ? 10 : 0 // Elevate z-index when dragging
+            }}
         />
     );
 };
