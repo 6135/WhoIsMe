@@ -1,16 +1,8 @@
 // src/components/Card.tsx
 import React, { useState, useEffect } from 'react';
+import { CardProp } from '../types';
 
-interface CardProps {
-  id: number;
-  imageUrl: string;
-  title: string;
-  isSelected: boolean;
-  isZoomed: boolean;
-  onClick: () => void;
-}
-
-export const Card: React.FC<CardProps> = ({
+export const Card: React.FC<CardProp> = ({
   imageUrl,
   title,
   isSelected,

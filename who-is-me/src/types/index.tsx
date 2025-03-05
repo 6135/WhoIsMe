@@ -7,6 +7,14 @@ export interface CardData {
     title: string;
     description: string;
   }
+export  interface CardProp {
+    id: number;
+    imageUrl: string;
+    title: string;
+    isSelected: boolean;
+    isZoomed: boolean;
+    onClick: () => void;
+  }
   
   // Mock data that could be moved to a separate file
   export const cardDataset: CardData[] = [
