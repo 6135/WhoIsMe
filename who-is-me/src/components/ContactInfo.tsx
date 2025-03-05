@@ -13,7 +13,7 @@ export const ContactInfo: React.FC = () => {
       <div className="contact-links">
         <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="contact-link">
           <i className="icon github-icon">{t('contactInfo.githubLabel')}</i>
-          <span>github.com/yourusername</span>
+          <span>github.com/6135</span>
         </a>
         <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" className="contact-link">
           <i className="icon linkedin-icon">{t('contactInfo.linkedinLabel')}</i>

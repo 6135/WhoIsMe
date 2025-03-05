@@ -1,6 +1,7 @@
 // src/components/Card.tsx
 import React, { useState, useEffect } from 'react';
 import { CardProp } from '../types';
+import logoSvg from '../assets/images/logo-design.svg';
 
 export const Card: React.FC<CardProp> = ({
   imageUrl,
@@ -60,9 +61,9 @@ export const Card: React.FC<CardProp> = ({
     <div className={cardClasses} onClick={handleClick}>
       <div className="card-inner">
         <div className={`card-front ${hasBeenRevealed ? 'hidden' : ''}`}>
-          <div className="card-back-design">
-            <span>?</span>
-          </div>
+        <div className="card-back-design">
+          <img src="/logo-design.svg" alt="Who Is Me logo" className="card-logo-full" />
+        </div>
         </div>
         <div className="card-back">
           <img src={imageUrl} alt={title} />
@@ -79,20 +80,7 @@ export const Card: React.FC<CardProp> = ({
           e.stopPropagation();
           onClick();
         }}>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          &times;
         </div>
       )}
     </div>
