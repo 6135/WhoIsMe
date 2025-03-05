@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
 import { CardData, cardDataset, shuffleArray } from '../types';
+import { useLanguage } from '../i18n/LanguageContext';
 import '../assets/css/Card.css';
 
 export const CardGame: React.FC = () => {
+  const { t } = useLanguage();
   const [cards, setCards] = useState<CardData[]>([]);
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -33,19 +35,17 @@ export const CardGame: React.FC = () => {
     // Add card to flipped cards set
     setFlippedCards(prev => new Set(prev).add(id));
 
-    // If the card is not zoomed, zoom it
-    if (!isZoomed || selectedCard !== id) {
-      setSelectedCard(id);
-      setIsZoomed(true);
-    }
-    // If the card is already zoomed, the close button will handle unzooming
-    else {
+    // Toggle zoom state if clicking the same card
+    if (selectedCard === id && isZoomed) {
       setIsZoomed(false);
       // Scroll back to the card's original position if unzooming
       const cardWrapper = document.querySelector(`.card-wrapper[data-card-id="${id}"]`);
       if (cardWrapper) {
         cardWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    } else {
+      setSelectedCard(id);
+      setIsZoomed(true);
     }
   };
 
@@ -78,8 +78,8 @@ export const CardGame: React.FC = () => {
             <Card
               id={card.id}
               imageUrl={card.imageUrl}
-              title={card.title}
-              description={card.description}
+              title={t(card.title)}
+              description={t(card.description)}
               isSelected={flippedCards.has(card.id)}
               isZoomed={isZoomed && card.id === selectedCard}
               onClick={() => handleCardClick(card.id)}
