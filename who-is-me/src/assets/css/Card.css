@@ -1,5 +1,33 @@
 /* Card.css */
+.card.zoomed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.8);
+  z-index: 1000;
+  margin: 0;
+  width: 300px;
+  height: 250px;
+}
 
+.card-front.hidden {
+  display: none;
+}
+
+/* Make sure the zoomed card is above everything else */
+.card.zoomed .card-inner {
+  z-index: 1001;
+}
+
+/* Remove the card-placeholder class if you're not using it */
+.card-placeholder {
+  display: none;
+}
+
+/* Make sure the card-wrapper doesn't affect the zoomed card */
+.card-wrapper {
+  position: relative;
+}
 
 .card {
     height: 250px;

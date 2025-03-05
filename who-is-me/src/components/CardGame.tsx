@@ -1,3 +1,4 @@
+
 // components/CardGame.tsx
 import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
@@ -15,6 +16,7 @@ export const CardGame: React.FC = () => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
+  const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
 
   // Example card data (in a real app, this might come from an API)
   const cardData: CardType[] = [
@@ -56,6 +58,7 @@ export const CardGame: React.FC = () => {
     }
   ];
 
+
   // Shuffle cards on component mount
   useEffect(() => {
     const shuffledCards = [...cardData].sort(() => Math.random() - 0.5);
@@ -63,14 +66,18 @@ export const CardGame: React.FC = () => {
   }, []);
 
   const handleCardClick = (id: number) => {
+    // Add card to flipped cards set
+    setFlippedCards(prev => new Set(prev).add(id));
+
     // If clicking the same card that's already zoomed, toggle zoom state
     if (selectedCard === id && isZoomed) {
       setIsZoomed(false);
+      document.body.style.overflow = 'auto';
     } else {
       // Otherwise, select the card and zoom in
       setSelectedCard(id);
       setIsZoomed(true);
-      
+
       // Ensure the body doesn't scroll while a card is zoomed
       document.body.style.overflow = 'hidden';
     }
@@ -78,8 +85,9 @@ export const CardGame: React.FC = () => {
 
   const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement>) => {
     // Only unzoom if clicking the background, not a card
-    if ((event.target as HTMLElement).classList.contains('card-game') || 
-        (event.target as HTMLElement).classList.contains('cards-container')) {
+    if ((event.target as HTMLElement).classList.contains('card-game') ||
+      (event.target as HTMLElement).classList.contains('cards-container') ||
+      (event.target as HTMLElement).classList.contains('card-overlay')) {
       setIsZoomed(false);
       // Restore scrolling when unzooming
       document.body.style.overflow = 'auto';
@@ -88,32 +96,45 @@ export const CardGame: React.FC = () => {
 
   const selectedCardData = cards.find(card => card.id === selectedCard);
 
+  // In CardGame.tsx, remove the duplicate zoomed card:
   return (
     <div className="card-game" onClick={handleBackgroundClick}>
       {/* Overlay for when a card is zoomed */}
-      <div 
-        className={`card-overlay ${isZoomed ? 'overlay-visible' : ''}`} 
-        onClick={() => {
-          setIsZoomed(false);
-          document.body.style.overflow = 'auto';
-        }}
+      <div
+        className={`card-overlay ${isZoomed ? 'overlay-visible' : ''}`}
       />
-      
+
       <h2>Flip the Cards to Discover</h2>
       <div className="cards-container">
         {cards.map((card) => (
-          <Card
-            key={card.id}
-            id={card.id}
-            imageUrl={card.imageUrl}
-            title={card.title}
-            isSelected={card.id === selectedCard}
-            isZoomed={isZoomed && card.id === selectedCard}
-            onClick={() => handleCardClick(card.id)}
-          />
+          <div key={card.id} className="card-wrapper">
+            <Card
+              id={card.id}
+              imageUrl={card.imageUrl}
+              title={card.title}
+              isSelected={flippedCards.has(card.id)}
+              isZoomed={isZoomed && card.id === selectedCard}
+              onClick={() => handleCardClick(card.id)}
+            />
+          </div>
         ))}
       </div>
-      
+
+      {/* Remove this duplicate zoomed card section:
+    {selectedCardData && isZoomed && (
+      <div className="zoomed-card-container">
+        <Card
+          id={selectedCardData.id}
+          imageUrl={selectedCardData.imageUrl}
+          title={selectedCardData.title}
+          isSelected={true}
+          isZoomed={true}
+          onClick={() => handleCardClick(selectedCardData.id)}
+        />
+      </div>
+    )}
+    */}
+
       {selectedCardData && isZoomed && (
         <div className="card-details">
           <h3>{selectedCardData.title}</h3>
@@ -122,4 +143,5 @@ export const CardGame: React.FC = () => {
       )}
     </div>
   );
+
 };

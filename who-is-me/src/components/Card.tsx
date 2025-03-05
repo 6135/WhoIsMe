@@ -11,13 +11,13 @@ interface CardProps {
   onClick: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({ 
-  id, 
-  imageUrl, 
-  title, 
-  isSelected, 
-  isZoomed, 
-  onClick 
+export const Card: React.FC<CardProps> = ({
+  id,
+  imageUrl,
+  title,
+  isSelected,
+  isZoomed,
+  onClick
 }) => {
   // Track if the card has been flipped at least once
   const [hasBeenFlipped, setHasBeenFlipped] = useState<boolean>(false);
@@ -29,13 +29,14 @@ export const Card: React.FC<CardProps> = ({
     onClick();
   };
 
+  // In Card.tsx, simplify the return statement:
   return (
-    <div 
+    <div
       className={`card ${isSelected ? 'flipped' : ''} ${isZoomed ? 'zoomed' : ''} ${hasBeenFlipped ? 'revealed' : ''}`}
       onClick={handleClick}
     >
       <div className="card-inner">
-        <div className="card-front">
+        <div className={`card-front ${hasBeenFlipped ? 'hidden' : ''}`}> 
           <div className="card-back-design">
             <span>?</span>
           </div>
@@ -47,4 +48,6 @@ export const Card: React.FC<CardProps> = ({
       </div>
     </div>
   );
+
+
 };
