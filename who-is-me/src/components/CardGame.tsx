@@ -22,9 +22,10 @@ export const CardGame: React.FC = () => {
   const cardData: CardType[] = [
     {
       id: 1,
-      imageUrl: "/api/placeholder/400/400",
+      imageUrl: "/images/ninetails.jpg",
       title: "Mountain Landscape",
-      description: "A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails."
+      description: "A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails. A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails."
+
     },
     {
       id: 2,
@@ -95,6 +96,13 @@ export const CardGame: React.FC = () => {
   };
 
   const selectedCardData = cards.find(card => card.id === selectedCard);
+  // Add this useEffect near your other useEffects
+  useEffect(() => {
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   // In CardGame.tsx, remove the duplicate zoomed card:
   return (
@@ -118,22 +126,9 @@ export const CardGame: React.FC = () => {
             />
           </div>
         ))}
+
       </div>
 
-      {/* Remove this duplicate zoomed card section:
-    {selectedCardData && isZoomed && (
-      <div className="zoomed-card-container">
-        <Card
-          id={selectedCardData.id}
-          imageUrl={selectedCardData.imageUrl}
-          title={selectedCardData.title}
-          isSelected={true}
-          isZoomed={true}
-          onClick={() => handleCardClick(selectedCardData.id)}
-        />
-      </div>
-    )}
-    */}
 
       {selectedCardData && isZoomed && (
         <div className="card-details">

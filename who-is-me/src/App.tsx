@@ -10,7 +10,7 @@ const App: React.FC = () => {
     <div className="app">
       {/* <Header /> */}
       <CardGame />
-      {/* <ContactInfo /> */}
+      <ContactInfo />
     </div>
   );
 };
