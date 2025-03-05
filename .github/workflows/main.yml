@@ -11,6 +11,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
@@ -28,10 +30,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./who-is-me
         run: npm ci
-        
-      #- name: Run tests
-      #  working-directory: ./who-is-me
-      #  run: npm test -- --passWithNoTests
         
       - name: Build
         working-directory: ./who-is-me
