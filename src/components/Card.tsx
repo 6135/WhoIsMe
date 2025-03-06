@@ -1,7 +1,7 @@
 // src/components/Card.tsx
 import React, { useState, useEffect } from 'react';
 import { CardProp } from '../types';
-
+import logo from '../assets/logo-design.svg';
 export const Card: React.FC<CardProp> = ({
   imageUrl,
   title,
@@ -61,7 +61,7 @@ export const Card: React.FC<CardProp> = ({
       <div className="card-inner">
         <div className={`card-front ${hasBeenRevealed ? 'hidden' : ''}`}>
         <div className="card-back-design">
-          <img src="/logo-design.svg" alt="Who Is Me logo" className="card-logo-full" />
+          <img src={logo} alt="Who Is Me logo" className="card-logo-full" />
         </div>
         </div>
         <div className="card-back">

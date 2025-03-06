@@ -1,6 +1,5 @@
 // src/types/index.ts
 // Define shared types across the application
-
 export interface CardData {
     id: number;
     imageUrl: string;
@@ -22,7 +21,7 @@ export interface CardData {
   export const cardDataset: CardData[] = [
         {
           id: 1,
-          imageUrl: "/images/ninetails.jpg",
+          imageUrl: '../assets/images/ninetails.jpg',
           title: 'cards.card1.title',
           description: 'cards.card1.description'
         },
