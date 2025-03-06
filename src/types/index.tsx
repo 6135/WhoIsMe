@@ -1,7 +1,7 @@
 // src/types/index.ts
 // Define shared types across the application
 
-import pic1 from '../assets/images/ninetails.jpg';
+import pic1 from '../assets/images/talita.jpg';
 export interface CardData {
     id: number;
     imageUrl: string;

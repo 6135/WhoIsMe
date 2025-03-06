@@ -109,4 +109,20 @@
     justify-content: center;
     gap: 30px;
   }
+
+
+}
+
+@media (max-width: 430px) {
+  .contact-links span{
+    display: none;
+  }
+  .contact-info .icon {
+    margin-right: 0px;
+  }
+  .contact-links {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
 }

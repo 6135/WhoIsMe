@@ -119,7 +119,8 @@
 }
 
 .card.zoomed .card-back img {
-  height: 300px; /* Larger image in zoomed state */
+  height: 400px; /* Larger image in zoomed state */
+  object-fit: scale-down;
 }
 
 .card-back h4 {

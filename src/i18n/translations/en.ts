@@ -20,8 +20,8 @@ export const en = {
     // Cards content
     cards: {
       card1: {
-        title: "Mountain Landscape",
-        description: "A breathtaking view of snow-capped mountains and a serene lake reflecting the surrounding peaks. The area is known for its diverse wildlife and hiking trails."
+        title: "Talita",
+        description: "This is my baby, Talita. She's 7 years old (Feb 2). She's a very sweet and loving cat, but only at a distance. She loves to play and sleep. <br>Like most cats very curious and loves to explore, you cannot leave a single bag or box anywhere in the house that she will scratch, bite and open it. She hated being picked up when she doesnt want to and cries when feels alone. She's very special to me."
       },
       card2: {
         title: "Coastal Sunset",
