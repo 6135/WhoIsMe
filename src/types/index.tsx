@@ -3,6 +3,7 @@
 
 import pic1 from '../assets/images/talita.jpg';
 import pic2 from '../assets/images/travel.jpg';
+import pic3 from '../assets/images/algarve.jpg';
 export interface CardData {
     id: number;
     imageUrl: string;
@@ -36,7 +37,7 @@ export interface CardData {
         },
         {
           id: 3,
-          imageUrl: "/api/placeholder/400/400",
+          imageUrl: pic3,
           title: 'cards.card3.title',
           description: 'cards.card3.description'
         },

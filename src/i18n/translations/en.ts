@@ -21,15 +21,15 @@ export const en = {
     cards: {
       card1: {
         title: "Talita",
-        description: "This is my baby, Talita. She's 7 years old (Feb 2). She's a very sweet and loving cat, but only at a distance. She loves to play and sleep. <br><br>Like most cats very curious and loves to explore, you cannot leave a single bag or box anywhere in the house that she will scratch, bite and open it. She hated being picked up when she doesnt want to and cries when feels alone. She's very special to me."
+        description: "This is my baby, Talita. She's 7 years old (Feb 2). She's a very sweet and loving cat, but only at a distance. She loves to play and sleep. <br><br>Like most cats she's very curious and loves to explore, you cannot leave a single bag or box anywhere in the house that she will scratch, bite and open it. She hates being picked up when she doesnt want to and cries when feels alone. She's very special to me."
       },
       card2: {
         title: "Travelling",
-        description: "I love travelling. So far I've been to Belgium where I visited Antwerp, to the Netherlands where I visited Amsterdam and Rotterdam and to Malta where I visited the three main islands (Malta, Gozo and Comino). <br><br> I strive to travel at least once a year and year the plan is to visit Luxembourg in april and in june I'll be going to Greece."
+        description: "I love travelling. So far I've been to Belgium where I visited Antwerp, to the Netherlands where I visited Amsterdam and Rotterdam and to Malta where I visited the three main islands (Malta, Gozo and Comino). <br><br> I strive to travel at least once a year and this year the plan is to visit Luxembourg in april and in june I'll be going to Greece."
       },
       card3: {
-        title: "Urban Cityscape",
-        description: "A dynamic city skyline illuminated at night, showcasing modern architecture and the vibrant energy of urban life. Skyscrapers reach toward the stars in this metropolitan wonder."
+        title: "Algarve",
+        description: "I'm from Algarve, the southernmost region of Portugal. I also have a dog (a yorkie) who's 17 years old! (Yes, that's crazy!). My hometown is Silves, a small city with a lot of history. It used to be the capital of Algarve and it's known for its castle and the medieval fair that happens every year. However, I myself have a house in the country side, next to Guia, the birthplace of the famous chicken piri-piri."
       }, 
       card4: {
         title: "Forest Waterfall",
