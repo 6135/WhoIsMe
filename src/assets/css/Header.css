@@ -16,6 +16,7 @@
 .header-content {
   max-width: 800px;
   padding: 0 20px;
+  
 }
 
 .header h1 {
@@ -88,17 +89,12 @@
   .header p {
     font-size: 1rem;
   }
+  .header-content {
+    margin-bottom: 10rem;
+
+  }
+  .scroll-indicator-container {
+    bottom: 11rem;
+  }
 }
 
-@media (max-height: 900){
-  /* make scroll icon higher in this case */
-  .scroll-indicator-container {
-    bottom: 80px;
-  }
-}
-@media (max-height: 600){
-  /* make scroll icon higher in this case */
-  .scroll-indicator-container {
-    bottom: 90px;
-  }
-}
