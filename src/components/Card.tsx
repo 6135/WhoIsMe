@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CardProp } from "../types";
 import logo from "../assets/logo-design.svg";
+import {FullScreenImageViewer} from './FullScreenImageViewer';
 
 export const Card: React.FC<CardProp> = ({
   imageUrl,
@@ -78,6 +79,7 @@ export const Card: React.FC<CardProp> = ({
     .join(" ");
 
   return (
+    
     <div className={cardClasses} onClick={handleClick} onWheel={handleWheel}>
       <div className="card-inner" >
         <div className={`card-front ${hasBeenRevealed ? "hidden" : ""}`}>
