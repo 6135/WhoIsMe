@@ -4,6 +4,8 @@
 import pic1 from '../assets/images/talita.jpg';
 import pic2 from '../assets/images/travel.jpg';
 import pic3 from '../assets/images/algarve.jpg';
+import pic4 from '../assets/images/likes.jpg';
+import pic5 from '../assets/images/aboutme.jpg';
 export interface CardData {
     id: number;
     imageUrl: string;
@@ -43,13 +45,13 @@ export interface CardData {
         },
         {
           id: 4,
-          imageUrl: "/api/placeholder/400/400",
+          imageUrl: pic4,
           title: 'cards.card4.title',
           description: 'cards.card4.description'
         },
         {
           id: 5,
-          imageUrl: "/api/placeholder/400/400",
+          imageUrl: pic5,
           title: 'cards.card5.title',
           description: 'cards.card5.description'
         },
