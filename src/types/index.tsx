@@ -2,6 +2,7 @@
 // Define shared types across the application
 
 import pic1 from '../assets/images/talita.jpg';
+import pic2 from '../assets/images/travel.jpg';
 export interface CardData {
     id: number;
     imageUrl: string;
@@ -29,7 +30,7 @@ export interface CardData {
         },
         {
           id: 2,
-          imageUrl: "/api/placeholder/400/400",
+          imageUrl: pic2,
           title: 'cards.card2.title',
           description: 'cards.card2.description'
         },

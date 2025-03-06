@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CardProp } from "../types";
 import logo from "../assets/logo-design.svg";
-import {FullScreenImageViewer} from './FullScreenImageViewer';
+import { FullScreenImageViewer } from "./FullScreenImageViewer";
 
 export const Card: React.FC<CardProp> = ({
   imageUrl,
@@ -12,31 +12,33 @@ export const Card: React.FC<CardProp> = ({
   isZoomed,
   onClick,
 }) => {
-  // Only track if card has been revealed at least once
+  // Existing states
   const [hasBeenRevealed, setHasBeenRevealed] = useState(false);
-  // State to control close button visibility
   const [showCloseButton, setShowCloseButton] = useState(false);
-  // Reference to the card-back div to control scrolling
+  const [showExpandButton, setShowExpandButton] = useState(false);
+
+  // New state for fullscreen image viewer
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const cardBackRef = useRef<HTMLDivElement>(null);
 
-  // Ensure zoomed cards are always flipped
   useEffect(() => {
     if (isZoomed) {
       setHasBeenRevealed(true);
 
-      // Set a timer to show the close button after the card has flipped
       const timer = setTimeout(() => {
         setShowCloseButton(true);
-      }, 1000); // 1-second delay
+        setShowExpandButton(true);
+      }, 600);
 
       return () => {
-        clearTimeout(timer); // Clean up timer on component unmount or when zoom state changes
-        setShowCloseButton(false); // Hide close button when card is unzoomed
+        clearTimeout(timer);
+        setShowCloseButton(false);
+        setShowExpandButton(false);
       };
     } else {
       setShowCloseButton(false);
+      setShowExpandButton(false);
 
-      // Reset scroll position when card is unzoomed
       if (cardBackRef.current) {
         cardBackRef.current.scrollTop = 0;
       }
@@ -44,8 +46,6 @@ export const Card: React.FC<CardProp> = ({
   }, [isZoomed]);
 
   const handleClick = (e: React.MouseEvent) => {
-    // If the card is zoomed, prevent the click from closing it
-    // when clicking on the card content
     if (isZoomed) {
       e.stopPropagation();
       return;
@@ -56,19 +56,23 @@ export const Card: React.FC<CardProp> = ({
     }
     onClick();
   };
+
   const handleWheel = (e: React.WheelEvent) => {
     if (isZoomed && cardBackRef.current) {
       e.stopPropagation();
-      
-      // Scale the deltaY to create smoother scrolling
-      // A smaller multiplier makes scrolling more gentle
+
       const scrollAmount = e.deltaY * 0.3;
-      
-      // Apply the scroll
+
       cardBackRef.current.scrollTop += scrollAmount;
     }
   };
-  // Combine class names conditionally
+
+  // New function to handle search icon click
+  const handleImageSearch = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the click from affecting the card
+    setShowFullscreenImage(true);
+  };
+
   const cardClasses = [
     "card",
     isSelected || isZoomed ? "flipped" : "",
@@ -79,26 +83,25 @@ export const Card: React.FC<CardProp> = ({
     .join(" ");
 
   return (
-    
     <div className={cardClasses} onClick={handleClick} onWheel={handleWheel}>
-      <div className="card-inner" >
+      <div className="card-inner">
         <div className={`card-front ${hasBeenRevealed ? "hidden" : ""}`}>
           <div className="card-back-design">
             <img src={logo} alt="Who Is Me logo" className="card-logo-full" />
           </div>
         </div>
-        <div
-          className="card-back"
-          ref={cardBackRef}
-        >
-          <img src={imageUrl} alt={title} />
-          <h4>{title}</h4>
+        <div className="card-back" ref={cardBackRef}>
+          {/* Add image container with search icon */}
+          <div className="card-image-container">
+            <img src={imageUrl} alt={title} />
+            <h4>{title}</h4>
+          </div>
           {isZoomed && description && (
             <div
               className="card-details-content"
               onClick={(e) => e.stopPropagation()}
               dangerouslySetInnerHTML={{ __html: description }}
-            />
+            ></div>
           )}
         </div>
       </div>
@@ -112,6 +115,32 @@ export const Card: React.FC<CardProp> = ({
         >
           &times;
         </div>
+      )}
+      {isZoomed && showExpandButton && (
+        <div className="card-close-button image-search-icon " onClick={handleImageSearch}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </div>
+      )}
+      {/* Add FullScreenImageViewer */}
+      {showFullscreenImage && isZoomed && (
+        <FullScreenImageViewer
+          imageUrl={imageUrl}
+          altText={title}
+          onClose={() => setShowFullscreenImage(false)}
+        />
       )}
     </div>
   );

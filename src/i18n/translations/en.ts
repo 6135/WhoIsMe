@@ -24,8 +24,8 @@ export const en = {
         description: "This is my baby, Talita. She's 7 years old (Feb 2). She's a very sweet and loving cat, but only at a distance. She loves to play and sleep. <br><br>Like most cats very curious and loves to explore, you cannot leave a single bag or box anywhere in the house that she will scratch, bite and open it. She hated being picked up when she doesnt want to and cries when feels alone. She's very special to me."
       },
       card2: {
-        title: "Coastal Sunset",
-        description: "A stunning sunset over the ocean with vibrant colors reflecting off the water. The silhouettes of palm trees frame this beautiful scene on a tropical beach."
+        title: "Travelling",
+        description: "I love travelling. So far I've been to Belgium where I visited Antwerp, to the Netherlands where I visited Amsterdam and Rotterdam and to Malta where I visited the three main islands (Malta, Gozo and Comino). <br><br> I strive to travel at least once a year and year the plan is to visit Luxembourg in april and in june I'll be going to Greece."
       },
       card3: {
         title: "Urban Cityscape",
