@@ -33,7 +33,7 @@
 /* Fixed scroll indicator container */
 .scroll-indicator-container {
   position: absolute;
-  bottom: 40px;
+  bottom: 60px; /* Increased from 40px to ensure it's more accessible on mobile */
   left: 0;
   right: 0;
   display: flex;
@@ -49,6 +49,7 @@
   cursor: pointer;
   animation: bounce 2s infinite;
   pointer-events: auto; /* Make this element clickable */
+  padding: 15px; /* Add padding to create a larger touch target */
 }
 
 .scroll-indicator span {
@@ -86,5 +87,18 @@
   
   .header p {
     font-size: 1rem;
+  }
+}
+
+@media (max-height: 900){
+  /* make scroll icon higher in this case */
+  .scroll-indicator-container {
+    bottom: 80px;
+  }
+}
+@media (max-height: 600){
+  /* make scroll icon higher in this case */
+  .scroll-indicator-container {
+    bottom: 90px;
   }
 }
