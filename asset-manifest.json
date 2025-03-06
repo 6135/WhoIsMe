@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/WhoIsMe/static/css/main.ac179db1.css",
-    "main.js": "/WhoIsMe/static/js/main.e53260ba.js",
+    "main.js": "/WhoIsMe/static/js/main.fa911278.js",
     "static/media/travel.jpg": "/WhoIsMe/static/media/travel.f01299dcfb95f36b041d.jpg",
     "static/media/talita.jpg": "/WhoIsMe/static/media/talita.0eedde24beb004915e91.jpg",
     "static/media/logo-design.svg": "/WhoIsMe/static/media/logo-design.14e32103c5478af051202b6829dedf11.svg",
     "index.html": "/WhoIsMe/index.html",
     "main.ac179db1.css.map": "/WhoIsMe/static/css/main.ac179db1.css.map",
-    "main.e53260ba.js.map": "/WhoIsMe/static/js/main.e53260ba.js.map"
+    "main.fa911278.js.map": "/WhoIsMe/static/js/main.fa911278.js.map"
   },
   "entrypoints": [
     "static/css/main.ac179db1.css",
-    "static/js/main.e53260ba.js"
+    "static/js/main.fa911278.js"
   ]
 }
