@@ -21,7 +21,7 @@ export const en = {
     cards: {
       card1: {
         title: "Talita",
-        description: "This is my baby, Talita. She's 7 years old (Feb 2). She's a very sweet and loving cat, but only at a distance. She loves to play and sleep. <br>Like most cats very curious and loves to explore, you cannot leave a single bag or box anywhere in the house that she will scratch, bite and open it. She hated being picked up when she doesnt want to and cries when feels alone. She's very special to me."
+        description: "This is my baby, Talita. She's 7 years old (Feb 2). She's a very sweet and loving cat, but only at a distance. She loves to play and sleep. <br><br>Like most cats very curious and loves to explore, you cannot leave a single bag or box anywhere in the house that she will scratch, bite and open it. She hated being picked up when she doesnt want to and cries when feels alone. She's very special to me."
       },
       card2: {
         title: "Coastal Sunset",

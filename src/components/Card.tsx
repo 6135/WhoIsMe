@@ -1,7 +1,8 @@
 // src/components/Card.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CardProp } from '../types';
 import logo from '../assets/logo-design.svg';
+
 export const Card: React.FC<CardProp> = ({
   imageUrl,
   title,
@@ -14,6 +15,8 @@ export const Card: React.FC<CardProp> = ({
   const [hasBeenRevealed, setHasBeenRevealed] = useState(false);
   // State to control close button visibility
   const [showCloseButton, setShowCloseButton] = useState(false);
+  // Reference to the card-back div to control scrolling
+  const cardBackRef = useRef<HTMLDivElement>(null);
 
   // Ensure zoomed cards are always flipped
   useEffect(() => {
@@ -31,6 +34,11 @@ export const Card: React.FC<CardProp> = ({
       };
     } else {
       setShowCloseButton(false);
+      
+      // Reset scroll position when card is unzoomed
+      if (cardBackRef.current) {
+        cardBackRef.current.scrollTop = 0;
+      }
     }
   }, [isZoomed]);
 
@@ -57,20 +65,22 @@ export const Card: React.FC<CardProp> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <div className={cardClasses} onClick={handleClick}>
-      <div className="card-inner">
+    <div className={cardClasses} onClick={handleClick} >
+      <div className="card-inner" >
         <div className={`card-front ${hasBeenRevealed ? 'hidden' : ''}`}>
-        <div className="card-back-design">
-          <img src={logo} alt="Who Is Me logo" className="card-logo-full" />
+          <div className="card-back-design">
+            <img src={logo} alt="Who Is Me logo" className="card-logo-full" />
+          </div>
         </div>
-        </div>
-        <div className="card-back">
+        <div className="card-back" ref={cardBackRef}>
           <img src={imageUrl} alt={title} />
           <h4>{title}</h4>
           {isZoomed && description && (
-            <div className="card-details-content" onClick={(e) => e.stopPropagation()}>
-              <p>{description}</p>
-            </div>
+            <div 
+              className="card-details-content" 
+              onClick={(e) => e.stopPropagation()}
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           )}
         </div>
       </div>
