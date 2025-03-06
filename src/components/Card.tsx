@@ -92,17 +92,19 @@ export const Card: React.FC<CardProp> = ({
         </div>
         <div className="card-back" ref={cardBackRef}>
           {/* Add image container with search icon */}
-          <div className="card-image-container">
-            <img src={imageUrl} alt={title} />
+          <div>
+            <div className="card-image-container">
+              <img src={imageUrl} alt={title} />
+            </div>
             <h4>{title}</h4>
+            {isZoomed && description && (
+              <div
+                className="card-details-content"
+                onClick={(e) => e.stopPropagation()}
+                dangerouslySetInnerHTML={{ __html: description }}
+              ></div>
+            )}
           </div>
-          {isZoomed && description && (
-            <div
-              className="card-details-content"
-              onClick={(e) => e.stopPropagation()}
-              dangerouslySetInnerHTML={{ __html: description }}
-            ></div>
-          )}
         </div>
       </div>
       {isZoomed && showCloseButton && (
@@ -117,7 +119,9 @@ export const Card: React.FC<CardProp> = ({
         </div>
       )}
       {isZoomed && showExpandButton && (
-        <div className="card-close-button image-search-icon " onClick={handleImageSearch}
+        <div
+          className="card-close-button image-search-icon "
+          onClick={handleImageSearch}
         >
           <svg
             width="16"
