@@ -1,4 +1,4 @@
-// src/components/Header.tsx - Updated to allow background interaction
+// src/components/Header.tsx
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { AnimatedBackground } from './AnimatedBackground';
@@ -22,7 +22,9 @@ export const Header: React.FC = () => {
       <div className="header-content" onClick={handleHeaderClick}>
         <h1>{t('header.title')}</h1>
         <p>{t('header.description')}</p>
-        <div className="scroll-indicator">
+      </div>
+      <div className="scroll-indicator-container">
+        <div className="scroll-indicator" onClick={handleHeaderClick}>
           <span>{t('header.scrollToPlay')}</span>
           <div className="arrow-down"></div>
         </div>

@@ -1,80 +1,90 @@
 /* Header.css */
 .header {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    position: relative;
-    background-image: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9));
-    background-size: cover;
-    background-position: center;
-  }
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  position: relative;
+  background-image: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9));
+  background-size: cover;
+  background-position: center;
+}
 
-  .header-content {
-    max-width: 800px;
-    padding: 0 20px;
+.header-content {
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+/* Fixed scroll indicator container */
+.scroll-indicator-container {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* Allow clicks to pass through to elements below */
+}
+
+/* Actual scroll indicator with animation */
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  animation: bounce 2s infinite;
+  pointer-events: auto; /* Make this element clickable */
+}
+
+.scroll-indicator span {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.arrow-down {
+  width: 20px;
+  height: 20px;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  transform: rotate(45deg);
+}
+
+/* Fixed bounce animation that only affects vertical position */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
   }
-  
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 768px) {
   .header h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 2.5rem;
   }
   
   .header p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    margin-bottom: 2rem;
+    font-size: 1rem;
   }
-  
-  .scroll-indicator {
-    position: absolute;
-    bottom: 40px;
-    left: calc(50% - 10px);
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    animation: bounce 2s infinite;
-  }
-  
-  .scroll-indicator span {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .arrow-down {
-    width: 20px;
-    height: 20px;
-    border-right: 3px solid white;
-    border-bottom: 3px solid white;
-    transform: rotate(45deg);
-  }
-  
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-    }
-    40% {
-      transform: translateY(-20px);
-    }
-    60% {
-      transform: translateY(-10px);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .header h1 {
-      font-size: 2.5rem;
-    }
-    
-    .header p {
-      font-size: 1rem;
-    }
-  }
+}
