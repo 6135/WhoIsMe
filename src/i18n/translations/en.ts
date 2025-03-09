@@ -40,8 +40,8 @@ export const en = {
         description: "I'm 25 years old and I took my bachelor's degree in Computer Science at the University of Algarve. I got my masters in software engineering from the University of Coimbra.<br><br> Besides work and my hobbies I spent my saturdays studying to become a pilot (Private Pilot License) in the Aeroclube de Coimbra. Tech-wise I dabble in a lot of things and like to learn new technologies. <br><br> Currently I make/maintain mods for games, namely Mount & Blade II: Bannerlord and Stardew Valley (You can check them out on my github in the section below or at Nexus mods website, my name is 6135)"
       },
       card6: {
-        title: "Wildlife Safari",
-        description: "A rare glimpse of exotic animals in their natural habitat. This image captures the beauty and diversity of wildlife in one of the world's most renowned conservation areas."
+        title: "",
+        description: "Some pictures I've taken that show some of my favourite things. If you have any questions for me please feel free to ask. Thanks for visiting and taking the time to read about me."
       }
     },
     // Language switcher

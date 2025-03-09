@@ -6,6 +6,7 @@ import pic2 from '../assets/images/travel.jpg';
 import pic3 from '../assets/images/algarve.jpg';
 import pic4 from '../assets/images/likes.jpg';
 import pic5 from '../assets/images/aboutme.jpg';
+import pic6 from '../assets/images/favs.jpg';
 export interface CardData {
     id: number;
     imageUrl: string;
@@ -57,7 +58,7 @@ export interface CardData {
         },
         {
           id: 6,
-          imageUrl: "/api/placeholder/400/400",
+          imageUrl: pic6,
           title: 'cards.card6.title',
           description: 'cards.card6.description'
         }
@@ -71,4 +72,11 @@ export interface CardData {
       [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
     return shuffledArray;
+  }
+
+  export const moveCardIdToLast = (array: CardData[], id: number): CardData[] => {
+    const cardIndex = array.findIndex(card => card.id === id);
+    const card = array.splice(cardIndex, 1)[0];
+    array.push(card);
+    return array;
   }
