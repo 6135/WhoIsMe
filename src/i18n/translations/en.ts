@@ -33,7 +33,7 @@ export const en = {
       }, 
       card4: {
         title: "Likes",
-        description: "I have a lot of interests, from science to politics to planes. However, my most favourite things to do are, by far, playing video games with friends and watching series (mostly anime, but I watch almost anything). Always open to suggestions of new games and series to watch, so don't be shy. <br><br>Warframe was definitely the game that I've invested the most into. I've been playing it since 2013/2014 (when it was in beta) and I have over 2000 hours in it. I ran a big alliance of over 1000 players for a while and used to host events with prizes. <br> <br> I've played a lot of minecraft over the years and still run 1 public modded server. Again if you want to join tell me and I'll gladly add you or boot up server for us to play."
+        description: "I have a lot of interests, from science to politics to planes. However, my most favourite things to do are, by far, playing video games with friends and watching series (mostly anime, but I watch almost anything). Always open to suggestions of new games and series to watch, so don't be shy. <br><br>Warframe was definitely the game that I've invested the most into. I've been playing it since 2013/2014 (when it was in beta) and I have over 2000 hours in it. I ran a big alliance of over 1000 players for a while and used to host events with prizes. <br> <br> I've played a lot of minecraft over the years and still run 1 public modded server."
       },
       card5: {
         title: "About Me",
