@@ -1,5 +1,5 @@
 // src/components/Card.tsx
-import React, { useState, useEffect, useRef, TouchEvent } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CardProp } from "../types";
 import logo from "../assets/logo-design.svg";
 import { FullScreenImageViewer } from "./FullScreenImageViewer";
@@ -20,11 +20,6 @@ export const Card: React.FC<CardProp> = ({
   // New state for fullscreen image viewer
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const cardBackRef = useRef<HTMLDivElement>(null);
-  
-  // For touch scrolling
-  const [isTouching, setIsTouching] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
-  const [scrollStartY, setScrollStartY] = useState(0);
 
   useEffect(() => {
     if (isZoomed) {
@@ -52,11 +47,6 @@ export const Card: React.FC<CardProp> = ({
 
   const handleClick = (e: React.MouseEvent) => {
     if (isZoomed) {
-      // Don't prevent propagation for the card back when zoomed
-      // This allows clicks within the content to work normally
-      if ((e.target as HTMLElement).closest('.card-details-content')) {
-        return;
-      }
       e.stopPropagation();
       return;
     }
@@ -72,41 +62,9 @@ export const Card: React.FC<CardProp> = ({
       e.stopPropagation();
 
       const scrollAmount = e.deltaY * 0.3;
+
       cardBackRef.current.scrollTop += scrollAmount;
     }
-  };
-
-  // Handle touch start for scrolling
-  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    if (isZoomed && cardBackRef.current) {
-      setIsTouching(true);
-      setTouchStartY(e.touches[0].clientY);
-      setScrollStartY(cardBackRef.current.scrollTop);
-    }
-  };
-
-  // Handle touch move for scrolling
-  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-    if (isZoomed && isTouching && cardBackRef.current) {
-      const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
-      
-      // Apply the scroll
-      cardBackRef.current.scrollTop = scrollStartY + deltaY;
-      
-      // Prevent default to avoid page scrolling while card content is scrolled
-      if (
-        (deltaY > 0 && cardBackRef.current.scrollTop < cardBackRef.current.scrollHeight - cardBackRef.current.clientHeight) ||
-        (deltaY < 0 && cardBackRef.current.scrollTop > 0)
-      ) {
-        e.preventDefault();
-      }
-    }
-  };
-
-  // Handle touch end
-  const handleTouchEnd = () => {
-    setIsTouching(false);
   };
 
   // New function to handle search icon click
@@ -125,24 +83,14 @@ export const Card: React.FC<CardProp> = ({
     .join(" ");
 
   return (
-    <div 
-      className={cardClasses} 
-      onClick={handleClick} 
-      onWheel={handleWheel}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className={cardClasses} onClick={handleClick} onWheel={handleWheel}>
       <div className="card-inner">
         <div className={`card-front ${hasBeenRevealed ? "hidden" : ""}`}>
           <div className="card-back-design">
             <img src={logo} alt="Who Is Me logo" className="card-logo-full" />
           </div>
         </div>
-        <div 
-          className="card-back" 
-          ref={cardBackRef}
-        >
+        <div className="card-back" ref={cardBackRef}>
           {/* Add image container with search icon */}
           <div>
             <div className="card-image-container">
