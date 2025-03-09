@@ -12,17 +12,35 @@
   border: none;
   padding: 8px 15px;
   border-radius: 20px;
-  cursor: pointer;
+  cursor: default;
   font-size: 0.9rem;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .language-button:hover {
   background-color: rgba(0, 0, 0, 0.9);
+}
+
+.language-option {
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  padding: 0 5px;
+}
+
+.language-option:hover {
   transform: translateY(-2px);
 }
 
-.language-button:active {
-  transform: translateY(0);
+.language-option.active {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.language-separator {
+  opacity: 0.7;
+  margin: 0 2px;
 }
