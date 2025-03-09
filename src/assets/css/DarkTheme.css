@@ -1,0 +1,166 @@
+/* src/assets/css/DarkTheme.css */
+
+/* Base theme variables */
+:root {
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #f0f4f8;
+    --text-primary: #333;
+    --text-secondary: #555;
+    --header-bg: #2c3e50;
+    --header-text: white;
+    --card-bg: white;
+    --card-back-bg: #3498db;
+    --link-color: #0077cc;
+    --link-hover: #005fa3;
+    --footer-bg: #2c3e50;
+    --footer-text: white;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
+    --transition-speed: 0.4s;
+  }
+  
+  /* Dark theme variables */
+  body.dark-theme {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --header-bg: #121212;
+    --header-text: #e0e0e0;
+    --card-bg: #2a2a2a;
+    --card-back-bg: #1a4971;
+    --link-color: #6ab0ff;
+    --link-hover: #91c4ff;
+    --footer-bg: #121212;
+    --footer-text: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --shadow-hover: rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Apply theme transitions */
+  body {
+    transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease;
+  }
+  
+  /* Apply theme colors to body */
+  body.light-theme {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  body.dark-theme {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  /* Header styles */
+  body.dark-theme .header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    background-image: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9));
+  }
+  
+  /* Card game section background */
+  body.dark-theme .card-game {
+    background-color: var(--bg-secondary);
+  }
+  
+  body.dark-theme .card-game h2 {
+    color: var(--text-primary);
+  }
+  
+  /* Card styles */
+  body.dark-theme .card .card-back {
+    background-color: var(--card-bg);
+  }
+  
+  body.dark-theme .card-back h4 {
+    color: var(--text-primary);
+  }
+  
+  body.dark-theme .card-details-content {
+    color: var(--text-primary);
+  }
+  
+  body.dark-theme .card-back-design {
+    background-color: var(--card-back-bg);
+  }
+  
+  /* Card shadow adjustments */
+  body.dark-theme .card-inner {
+    box-shadow: 0 4px 8px var(--shadow-color);
+  }
+  
+  body.dark-theme .card:not(.flipped):not(.revealed):hover {
+    box-shadow: 0 10px 20px var(--shadow-hover);
+  }
+  
+  /* Footer styles */
+  body.dark-theme .contact-info {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+  }
+  
+  /* Link colors */
+  body.dark-theme a {
+    color: var(--link-color);
+  }
+  
+  body.dark-theme a:hover {
+    color: var(--link-hover);
+  }
+  
+  /* Animated background adjustments for dark mode */
+  body.dark-theme .animated-background svg,
+  body.dark-theme .animated-background circle,
+  body.dark-theme .animated-background path,
+  body.dark-theme .animated-background polygon,
+  body.dark-theme .animated-background rect {
+    filter: brightness(0.7);
+  }
+  
+  /* Card overlay in dark mode */
+  body.dark-theme .card-overlay {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+  
+  /* Fullscreen image viewer in dark mode */
+  body.dark-theme .fullscreen-image-viewer {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+  
+  /* Language switcher in dark mode */
+  body.dark-theme .language-button {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+  }
+  
+  body.dark-theme .language-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+  
+  /* Icon backgrounds in dark mode */
+  body.dark-theme .icon {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  body.dark-theme .contact-link:hover .icon {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Smooth transitions for all themed elements */
+  .header,
+  .card-game,
+  .contact-info,
+  .card-inner,
+  .card-back,
+  .card-back h4,
+  .card-details-content,
+  .language-button,
+  .icon,
+  a {
+    transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease,
+                box-shadow var(--transition-speed) ease;
+  }
