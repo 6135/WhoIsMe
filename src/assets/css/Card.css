@@ -111,9 +111,11 @@
 /* Make zoomed card back scrollable */
 .card.zoomed .card-back {
   overflow-y: auto;
-    max-height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
+  -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS */
+  touch-action: pan-y; /* Allow vertical touch scrolling */
 }
 
 .card-back img {
@@ -146,6 +148,8 @@
   padding: 0 20px 20px 20px;
   color: #333;
   line-height: 1.6;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .card-details-content p {
@@ -156,20 +160,44 @@
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .card.zoomed {
-    width: 90%;
+    width: 92%;
     max-width: 480px;
-    height: 80vh; /* Use viewport height for better mobile experience */
+    height: 75vh; /* Use viewport height for better mobile experience */
     max-height: 600px;
+    overflow: hidden; /* Ensure inner scrolling works properly */
+  }
+  
+  .card.zoomed .card-back {
+    scrollbar-width: thin; /* For Firefox */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
+  }
+
+  .card.zoomed .card-back::-webkit-scrollbar {
+    width: 4px; /* Thinner scrollbars for mobile */
+  }
+
+  .card.zoomed .card-back::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
   }
   
   .card.zoomed .card-back img {
-    height: 200px;
+    height: 180px; /* Reduce image height on mobile */
   }
   
   .card.zoomed .card-back h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    padding: 12px 15px;
+  }
+
+  /* Larger touch targets for buttons */
+  .card-close-button {
+    width: 40px;
+    height: 40px;
   }
 }
+
 /* Base card styling */
 .card {
   height: 250px;
@@ -218,14 +246,11 @@
   display: none;
 }
 
-
-
 .card-back-design span {
   font-size: 5rem;
   color: rgba(255, 255, 255, 0.8);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
 
 /* Card Game Container */
 .card-game {
@@ -269,6 +294,7 @@
   visibility: hidden;
   transition: opacity 0.3s ease;
   pointer-events: none;
+  -webkit-overflow-scrolling: auto;
 }
 
 .overlay-visible {
@@ -339,7 +365,7 @@
   .card.zoomed {
     width: 90%;
     max-width: 480px;
-    height: 360px;
+    height: 75vh;
   }
   
   .card-details {
@@ -411,6 +437,13 @@
 
 .fullscreen-close-button:hover {
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+/* Fix to prevent zoom on double-tap on mobile */
+.card-back * {
+  touch-action: manipulation;
+  touch-action: pan-y; /* Allow vertical touch scrolling */
 }
 
 @keyframes fadeIn {
