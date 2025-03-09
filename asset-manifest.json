@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/WhoIsMe/static/css/main.c8f20418.css",
-    "main.js": "/WhoIsMe/static/js/main.8b43b2c6.js",
+    "main.css": "/WhoIsMe/static/css/main.28f4ceab.css",
+    "main.js": "/WhoIsMe/static/js/main.4d97c434.js",
     "static/media/travel.jpg": "/WhoIsMe/static/media/travel.f01299dcfb95f36b041d.jpg",
     "static/media/algarve.jpg": "/WhoIsMe/static/media/algarve.7c339339410b0b0d26ad.jpg",
     "static/media/aboutme.jpg": "/WhoIsMe/static/media/aboutme.2cd840c496f9cd682e02.jpg",
@@ -9,11 +9,11 @@
     "static/media/likes.jpg": "/WhoIsMe/static/media/likes.532bb119f675b1eeb250.jpg",
     "static/media/logo-design.svg": "/WhoIsMe/static/media/logo-design.14e32103c5478af051202b6829dedf11.svg",
     "index.html": "/WhoIsMe/index.html",
-    "main.c8f20418.css.map": "/WhoIsMe/static/css/main.c8f20418.css.map",
-    "main.8b43b2c6.js.map": "/WhoIsMe/static/js/main.8b43b2c6.js.map"
+    "main.28f4ceab.css.map": "/WhoIsMe/static/css/main.28f4ceab.css.map",
+    "main.4d97c434.js.map": "/WhoIsMe/static/js/main.4d97c434.js.map"
   },
   "entrypoints": [
-    "static/css/main.c8f20418.css",
-    "static/js/main.8b43b2c6.js"
+    "static/css/main.28f4ceab.css",
+    "static/js/main.4d97c434.js"
   ]
 }
