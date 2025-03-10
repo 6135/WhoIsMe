@@ -1,4 +1,4 @@
-// src/components/Card.tsx - With loading state improvements
+// src/components/Card.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { CardProp } from "../types";
 import logo from "../assets/logo-design.svg";
@@ -16,7 +16,6 @@ export const Card: React.FC<CardProp> = ({
   const [hasBeenRevealed, setHasBeenRevealed] = useState(false);
   const [showCloseButton, setShowCloseButton] = useState(false);
   const [showExpandButton, setShowExpandButton] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   // New state for fullscreen image viewer
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
@@ -24,15 +23,6 @@ export const Card: React.FC<CardProp> = ({
   const isScrollingRef = useRef(false);
   const touchStartYRef = useRef(0);
   const scrollTopAtTouchStartRef = useRef(0);
-  
-  // Preload the image eagerly but hidden
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      setImageLoaded(true);
-    };
-    img.src = imageUrl;
-  }, [imageUrl]);
 
   useEffect(() => {
     if (isZoomed) {
@@ -91,6 +81,8 @@ export const Card: React.FC<CardProp> = ({
     if (isZoomed && cardBackRef.current) {
       touchStartYRef.current = e.touches[0].clientY;
       scrollTopAtTouchStartRef.current = cardBackRef.current.scrollTop;
+      
+      // Don't prevent default here to allow native scrolling behavior
     }
   };
 
@@ -109,6 +101,7 @@ export const Card: React.FC<CardProp> = ({
       }
       
       // Prevent default only if scrolling vertically significantly
+      // This allows the card content to scroll without page scroll interference
       if (Math.abs(touchDiff) > 10) {
         e.preventDefault();
       }
@@ -125,7 +118,7 @@ export const Card: React.FC<CardProp> = ({
     }
   };
 
-  // Handle image search
+  // New function to handle search icon click
   const handleImageSearch = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent the click from affecting the card
     setShowFullscreenImage(true);
@@ -136,7 +129,6 @@ export const Card: React.FC<CardProp> = ({
     isSelected || isZoomed ? "flipped" : "",
     isZoomed ? "zoomed" : "",
     hasBeenRevealed ? "revealed" : "",
-    imageLoaded ? "image-loaded" : "image-loading"
   ]
     .filter(Boolean)
     .join(" ");
@@ -161,18 +153,10 @@ export const Card: React.FC<CardProp> = ({
           ref={cardBackRef} 
           style={{ overscrollBehavior: 'contain' }}
         >
+          {/* Add image container with search icon */}
           <div>
             <div className="card-image-container">
-              {!imageLoaded && (
-                <div className="card-image-loader">
-                  <div className="card-image-spinner"></div>
-                </div>
-              )}
-              <img 
-                src={imageUrl} 
-                alt={title} 
-                className={imageLoaded ? "card-image-visible" : "card-image-hidden"}
-              />
+              <img src={imageUrl} alt={title} />
             </div>
             <h4>{title}</h4>
             {isZoomed && description && (
